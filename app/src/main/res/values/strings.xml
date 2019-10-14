@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Donor Darah</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="loginfb">Login with Facebook</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="point">0</string>
+    <string name="profile_picture">Profile Picture</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="bloodType">Blood Type</string>
+    <string name="a">A</string>
+    <string name="b">B</string>
+    <string name="ab">AB</string>
+    <string name="o">O</string>
+    <string name="acc">Have an account ?</string>
+    <string name="facebook_app_id">2418158981635066</string>
+</resources>

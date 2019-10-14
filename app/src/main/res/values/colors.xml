@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#008577</color>-->
+
+    <color name="colorPrimary"> #8a0303 </color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="white">#FEFEFE</color>
+    <color name="redBlood"> #8A0303 </color>
+    <color name="lightRed"> #FF0000 </color>
+    <color name="dodgerBlue">#1E90FF</color>
+    <color name="grey">#C0C0C0</color>
+</resources>

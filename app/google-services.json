@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "257757413925",
+    "firebase_url": "https://donordarahtpa.firebaseio.com",
+    "project_id": "donordarahtpa",
+    "storage_bucket": "donordarahtpa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257757413925:android:61d23b563770f39e63b5cc",
+        "android_client_info": {
+          "package_name": "com.example.tpaandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257757413925-r2igq92rjffqp4s4olchdnrt7bkcobro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWePd-P9CBIOCKHEWTV960qlHckBwARo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257757413925-r2igq92rjffqp4s4olchdnrt7bkcobro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257757413925:android:af2295814ff416ea63b5cc",
+        "android_client_info": {
+          "package_name": "com.example.tpamobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257757413925-7v09p20a3bflga7smdbee4v4a6g6m274.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tpamobile",
+            "certificate_hash": "f7fd3159a3a3ec58fbbfd2ef8bdae5383df90518"
+          }
+        },
+        {
+          "client_id": "257757413925-r2igq92rjffqp4s4olchdnrt7bkcobro.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWePd-P9CBIOCKHEWTV960qlHckBwARo8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257757413925-r2igq92rjffqp4s4olchdnrt7bkcobro.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
