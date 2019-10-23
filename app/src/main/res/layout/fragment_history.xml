@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.bluejack19_1.BloodFOR.Fragment.HistoryFragment">
+
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="500dp"
+                    android:layout_height="500dp"
+                    android:text="@string/event"/>
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="500dp"
+                    android:layout_height="500dp"
+                    android:text="@string/points"/>
+            </com.google.android.material.tabs.TabLayout>
+        </androidx.viewpager.widget.ViewPager>
+
+
+</FrameLayout>

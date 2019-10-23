@@ -32,8 +32,9 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
     private FirebaseDatabase firebaseDatabase;
     private FirebaseAuth firebaseAuth;
-    private String firstName,lastName, email, password, confirmPassword, gender = "";
+    private String firstName,lastName, email, password, confirmPassword, gender, profilePicture, bloodType;
     private TextView loginText;
+    private RadioButton a,b,o,ab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,16 @@ public class RegisterActivity extends AppCompatActivity {
         femaleRegister = findViewById(R.id.radio_female);
         registerBtn = findViewById(R.id.register_button);
         loginText = findViewById(R.id.login_text);
+        a = findViewById(R.id.type_a);
+        b = findViewById(R.id.type_b);
+        ab = findViewById(R.id.type_ab);
+        o = findViewById(R.id.type_o);
     }
     private void  register(){
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                profilePicture = "gs://donordarahtpa.appspot.com/images/default.jpg";
                 firstName = firstNameRegister.getText().toString();
                 lastName = lastNameRegister.getText().toString();
                 email = emailRegister.getText().toString();
@@ -74,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                 confirmPassword = confirmPasswordRegister.getText().toString();
                 dbRef = firebaseDatabase.getInstance().getReference();
                 firebaseAuth = FirebaseAuth.getInstance();
+
 
                 if(firstName.isEmpty()){
                     firstNameRegister.setError("First Name must be filled");
@@ -106,25 +113,34 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this,
                             "Gender must be choose" , Toast.LENGTH_LONG).show();
                 }
+                else if(!a.isChecked() && !b.isChecked() && !ab.isChecked() && !o.isChecked()) {
+                    Toast.makeText(RegisterActivity.this,
+                            "Blood Type must be choose", Toast.LENGTH_LONG).show();
+                }
                 else {
                     if(maleRegister.isChecked()) gender = "Male";
                     else if(femaleRegister.isChecked()) gender = "Female";
+                    if(a.isChecked()) bloodType = "A";
+                    else if(b.isChecked()) bloodType = "B";
+                    else if(ab.isChecked()) bloodType = "AB";
+                    else if (o.isChecked()) bloodType = "O";
+                    else bloodType = "-";
+                    firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                User newUser = new User(profilePicture, firstName, lastName, email, gender, bloodType);
 
-                    firebaseAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                            User newUser = new User(firstName, lastName, email, password, gender);
-                                            dbRef.child("User").child(dbRef.push().getKey()).setValue(newUser);
-                                            Toast.makeText(RegisterActivity.this,
-                                                    "Succes Register"
-                                                    , Toast.LENGTH_SHORT).show();
-                                            Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                            startActivity(myIntent);
-                                            finish();
-
-                                }
-                            });
+                                dbRef.child("User").child(task.getResult().getUser().getUid()).setValue(newUser);
+                                Toast.makeText(RegisterActivity.this,
+                                        "Succes Register"
+                                        , Toast.LENGTH_SHORT).show();
+                                Intent myIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(myIntent);
+                                finish();
+                            }
+                        }
+                    });
                 }
             }
         });

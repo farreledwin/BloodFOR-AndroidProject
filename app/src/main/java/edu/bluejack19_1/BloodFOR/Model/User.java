@@ -2,22 +2,68 @@ package edu.bluejack19_1.BloodFOR.Model;
 
 public class User {
 
-    public String firstName, lastName, email, password, gender;
+    private String profilePicture;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String gender;
+    private String bloodType;
 
-    public User() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+
+    public String getBloodType() {
+        return bloodType;
+    }
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
+
     }
 
-    public User(String firstName, String lastName, String email, String password, String gender) {
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public User(String profilePicture, String firstName, String lastName, String email, String gender,String bloodType) {
+        this.profilePicture = profilePicture;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.password = password;
         this.gender = gender;
-    }
-    private void writeNewUser(String userId, String name, String email) {
-//        User user = new User(name, email);
-
-//        donorda.child("users").child(userId).setValue(user);
+        this.bloodType = bloodType;
     }
 }
