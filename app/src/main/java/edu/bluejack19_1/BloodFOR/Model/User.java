@@ -8,7 +8,15 @@ public class User {
     private String email;
     private String gender;
     private String bloodType;
+    private String role;
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public String getBloodType() {
         return bloodType;
@@ -58,12 +66,13 @@ public class User {
         this.gender = gender;
     }
 
-    public User(String profilePicture, String firstName, String lastName, String email, String gender,String bloodType) {
+    public User(String profilePicture, String firstName, String lastName, String email, String gender,String bloodType, String role) {
         this.profilePicture = profilePicture;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
         this.bloodType = bloodType;
+        this.role = role;
     }
 }

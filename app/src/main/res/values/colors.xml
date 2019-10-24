@@ -11,4 +11,6 @@
     <color name="dodgerBlue">#1E90FF</color>
     <color name="grey">#C0C0C0</color>
     <color name="green">#008485</color>
+    <color name="orange">#DC7509</color>
+    <color name="gold">#D9A629</color>
 </resources>

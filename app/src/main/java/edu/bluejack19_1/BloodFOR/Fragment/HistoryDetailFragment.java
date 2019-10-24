@@ -18,30 +18,25 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.tpamobile.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Objects;
 
-import edu.bluejack19_1.BloodFOR.MainActivity;
 import edu.bluejack19_1.BloodFOR.MapsActivity;
 import edu.bluejack19_1.BloodFOR.Model.Event;
 
-public class DetailFragment extends Fragment {
+public class HistoryDetailFragment extends Fragment {
 
     private Event event;
     private RecyclerView rvEventView;
     private TextView eventName, eventDesc, eventLocation, eventDate;
     private ImageView eventPhoto;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-    private Button showMap, particiapteBtn;
+    private Button showMap;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_detail, container, false);
-
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -60,21 +55,6 @@ public class DetailFragment extends Fragment {
                 .apply(new RequestOptions().override(400, 400))
                 .into(eventPhoto);
 
-        particiapteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("User").child(MainActivity.uid).child("Event").push();
-                db.child("eventPicture").setValue(event.getEventPicture());
-                db.child("eventName").setValue(event.getEventName());
-                db.child("eventDesc").setValue(event.getEventDesc());
-                db.child("eventDate").setValue(formatter.format(event.getEventDate()).toString());
-                db.child("eventLocation").setValue(event.getEventLocation());
-                db.child("eventLatitude").setValue(event.getEventLatitude().toString());
-                db.child("eventLongitude").setValue(event.getEventLongitude().toString());
-                loadFragment(new HomeFragment(), false);
-            }
-        });
-
         showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,23 +66,17 @@ public class DetailFragment extends Fragment {
                 Objects.requireNonNull(getActivity()).finish();
             }
         });
+
     }
 
-    private boolean loadFragment(Fragment fragment, boolean check) {
-        if (fragment != null && check) {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.fl_container, fragment).addToBackStack(null).commit();
-            return true;
-        }else if (fragment != null && !check) {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.fl_container, fragment).commit();
-            return true;
-        }
-        return false;
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_history_detail, container, false);
     }
 
-    public DetailFragment(Event event){
-       this.event = event;
+    public HistoryDetailFragment(Event event){
+        this.event = event;
     }
 
     private void init(View view){
@@ -111,7 +85,6 @@ public class DetailFragment extends Fragment {
         eventDesc = view.findViewById(R.id.event_desc);
         eventLocation = view.findViewById(R.id.event_location);
         eventDate = view.findViewById(R.id.event_date);
-        particiapteBtn = view.findViewById(R.id.participate_button);
         showMap = view.findViewById(R.id.show_map_button);
     }
 }

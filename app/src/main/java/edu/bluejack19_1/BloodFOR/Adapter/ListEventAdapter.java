@@ -32,6 +32,7 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventAdapter.List
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private ArrayList<Event> listEvent;
     private Context c;
+
     public ListEventAdapter(Context c, ArrayList<Event> list) {
         this.listEvent = list;
         this.c = c;

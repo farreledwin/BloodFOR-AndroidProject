@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView registerBtn;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference dbRef;
+    public  static String pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,8 @@ public class LoginActivity extends AppCompatActivity {
                     final Uri personPhoto = acct.getPhotoUrl();
                     final String personGender = "Male";
                     final String password = "farrel";
-
+                    final String bloodType = "A";
+                    final String role = "Member";
                     DatabaseReference refs = FirebaseDatabase.getInstance().getReference().child("User");
                     refs.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -155,7 +157,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                             if(!found){
-                                User newUser = new User(""+personPhoto, personFirstName, personLastName, personEmail, personGender,"A");
+                                User newUser = new User(""+personPhoto, personFirstName, personLastName, personEmail, personGender, bloodType, role);
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User").push();
                                 uid = ref.getKey();
                                 ref.child("email").setValue(newUser.getEmail());
@@ -163,6 +165,8 @@ public class LoginActivity extends AppCompatActivity {
                                 ref.child("lastName").setValue(newUser.getLastName());
                                 ref.child("gender").setValue(newUser.getGender());
                                 ref.child("profilePicture").setValue(newUser.getProfilePicture());
+                                ref.child("bloodType").setValue(newUser.getBloodType());
+                                ref.child("role").setValue(newUser.getRole());
                             }
                             Bundle bundle = new Bundle();
                             bundle.putString("email", personEmail);
@@ -232,11 +236,13 @@ public class LoginActivity extends AppCompatActivity {
         final String personPhoto = profile.getProfilePictureUri(100,100).toString();
         final String personGender = "Male";
         final String password = "farrel";
+        final String bloodType = "A";
+        final String role = "Member";
         firebaseAuth.createUserWithEmailAndPassword(personEmail, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    User newUser = new User(personPhoto.toString(), personName, personLastName, personEmail, personGender, "A");
+                    User newUser = new User(personPhoto.toString(), personName, personLastName, personEmail, personGender, bloodType, role);
 
                     dbRef.child("User").child(task.getResult().getUser().getUid()).setValue(newUser);
                     Toast.makeText(LoginActivity.this,
@@ -292,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                         Bundle bundle = new Bundle();
                                         bundle.putString("email", email);
-                                        bundle.putString("pass", password);
+                                        pass = password;
                                         Toast.makeText(LoginActivity.this,"Success Login",Toast.LENGTH_LONG).show();
                                         Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                                         myIntent.putExtra("email",email);

@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,22 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tpamobile.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Executor;
+import java.util.Objects;
 
 import edu.bluejack19_1.BloodFOR.Adapter.ListEventAdapter;
 import edu.bluejack19_1.BloodFOR.Model.Event;
@@ -54,7 +48,6 @@ import edu.bluejack19_1.BloodFOR.Model.Event;
 public class HomeFragment extends Fragment {
 
     private DatabaseReference getReference;
-    private FirebaseDatabase getDatabase;
     private RecyclerView rvEventView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -69,7 +62,7 @@ public class HomeFragment extends Fragment {
     private Date today = new Date();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_event, container, false);
         return view;
@@ -80,16 +73,17 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         init(view);
         addData();
+
         geo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(geo.isChecked()){
                     geolocation();
-                    Log.d("baki","farjun");
                 }
                 else addData();
             }
         });
+
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -128,15 +122,18 @@ public class HomeFragment extends Fragment {
                             String eventLocation = d.child("eventLocation").getValue(String.class);
                             Date eventDate = null;
                             try {
-                                eventDate = formatter.parse(d.child("eventDate").getValue(String.class));
+                                eventDate = formatter.parse(d.child("eventDate").getValue(String.class)+"");
                             } catch (ParseException e) {
                                 e.printStackTrace();
                             }
                             Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
                             Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
                             Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude);
+
+                            assert eventDate != null;
                             if(eventDate.after(today)){
                                 if(geo.isChecked()){
+                                    assert eventLocation != null;
                                     if(eventLocation.equals(mycity))
                                     listEvent.add(e);
                                 }
@@ -144,9 +141,7 @@ public class HomeFragment extends Fragment {
                             }
                           }
                     }
-
                     showRecyclerList();
-
                 }
 
                     @Override
@@ -168,13 +163,15 @@ public class HomeFragment extends Fragment {
                     String eventLocation = d.child("eventLocation").getValue(String.class);
                     Date eventDate = null;
                     try {
-                        eventDate = formatter.parse(d.child("eventDate").getValue(String.class));
+                        eventDate = formatter.parse(d.child("eventDate").getValue(String.class)+"");
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                     Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
                     Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
                     Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude);
+
+                    assert eventDate != null;
                     if(eventDate.after(today))
                         listEvent.add(e);
                 }
@@ -186,8 +183,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
-
     }
 
     private void showRecyclerList() {
@@ -197,28 +192,29 @@ public class HomeFragment extends Fragment {
     }
 
     private void init(View view) {
+        FirebaseDatabase getDatabase = FirebaseDatabase.getInstance();
+
         search = view.findViewById(R.id.search_bar);
         rvEventView = view.findViewById(R.id.rv_events);
         rvEventView.setHasFixedSize(true);
         rvEventView.setLayoutManager(layoutManager);
-        getDatabase = FirebaseDatabase.getInstance();
         getReference = getDatabase.getReference();
         geo = view.findViewById(R.id.check_box_geolocation);
     }
 
     private void geolocation() {
-        FusedLocationProviderClient mFusedLocation = LocationServices.getFusedLocationProviderClient(getContext());
+        FusedLocationProviderClient mFusedLocation = LocationServices.getFusedLocationProviderClient(Objects.requireNonNull(getContext()));
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        mFusedLocation.getLastLocation().addOnSuccessListener( getActivity(), new OnSuccessListener<Location>() {
+        mFusedLocation.getLastLocation().addOnSuccessListener(Objects.requireNonNull(getActivity()), new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 if (location != null) {
                     lat = location.getLatitude();
                     lng = location.getLongitude();
-                    Geocoder gcd = new Geocoder(getActivity().getBaseContext(), Locale.getDefault());
+                    Geocoder gcd = new Geocoder(Objects.requireNonNull(getActivity()).getBaseContext(), Locale.getDefault());
                     try {
                         List<Address> addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                         if (addresses.size() > 0) {
@@ -239,13 +235,14 @@ public class HomeFragment extends Fragment {
                                 String eventLocation = d.child("eventLocation").getValue(String.class);
                                 Date eventDate = null;
                                 try {
-                                    eventDate = formatter.parse(d.child("eventDate").getValue(String.class));
+                                    eventDate = formatter.parse(d.child("eventDate").getValue(String.class)+"");
                                 } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                                 Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
                                 Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
                                 Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude);
+                                assert eventDate != null;
                                 if(eventDate.after(today))
                                     listEvent.add(e);
                             }

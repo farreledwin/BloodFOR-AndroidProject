@@ -23,21 +23,21 @@ import java.util.Date;
 import edu.bluejack19_1.BloodFOR.Model.Event;
 import edu.bluejack19_1.BloodFOR.interfacs.DataListener;
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListViewHolder>{
+public class UpdateDataAdapter extends RecyclerView.Adapter<UpdateDataAdapter.ListViewHolder> {
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private ArrayList<Event> listEvent;
     private Context c;
 
-    public HistoryAdapter(Context c, ArrayList<Event> list) {
+    public UpdateDataAdapter(Context c, ArrayList<Event> list) {
         this.listEvent = list;
         this.c = c;
     }
 
     @NonNull
     @Override
-    public HistoryAdapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public UpdateDataAdapter.ListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_row_event, viewGroup, false);
-        return new HistoryAdapter.ListViewHolder(view);
+        return new UpdateDataAdapter.ListViewHolder(view);
     }
 
     @Override
@@ -50,8 +50,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
         final Date date = event.getEventDate();
         final Double latitude = event.getEventLatitude();
         final Double longitude = event.getEventLongitude();
-        Log.d("Baki",""+picture);
-        Glide.with(holder.itemView.getContext())
+         Glide.with(holder.itemView.getContext())
                 .load(picture)
                 .apply(new RequestOptions().override(400, 400))
                 .into(holder.eventPhoto);
@@ -60,7 +59,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ListView
             @Override
             public void onClick(View view) {
                 DataListener listener = (DataListener) c;
-                listener.gotoHistoryDetailFragment(event);
+                listener.gotoDelete(event);
             }
         });
 

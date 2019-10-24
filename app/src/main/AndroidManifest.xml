@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tpamobile">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -13,16 +14,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="edu.bluejack19_1.BloodFOR.MainActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            >
+        <activity android:name="edu.bluejack19_1.BloodFOR.PasswordActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
-        </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_api_key" />
+
+        <activity
+            android:name="edu.bluejack19_1.BloodFOR.InsertDataActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="edu.bluejack19_1.BloodFOR.GetMapActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="edu.bluejack19_1.BloodFOR.MapsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name="edu.bluejack19_1.BloodFOR.MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="edu.bluejack19_1.BloodFOR.RegisterActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="edu.bluejack19_1.BloodFOR.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">

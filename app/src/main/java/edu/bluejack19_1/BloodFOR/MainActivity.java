@@ -31,10 +31,14 @@ import java.io.IOException;
 import java.util.UUID;
 
 import edu.bluejack19_1.BloodFOR.Fragment.DetailFragment;
+import edu.bluejack19_1.BloodFOR.Fragment.HistoryDetailFragment;
 import edu.bluejack19_1.BloodFOR.Fragment.HistoryFragment;
 import edu.bluejack19_1.BloodFOR.Fragment.HomeFragment;
 import edu.bluejack19_1.BloodFOR.Fragment.ParticipateFragment;
 import edu.bluejack19_1.BloodFOR.Fragment.ProfileFragment;
+import edu.bluejack19_1.BloodFOR.Fragment.StatisticFragment;
+import edu.bluejack19_1.BloodFOR.Fragment.UpdateDataFragment;
+import edu.bluejack19_1.BloodFOR.Fragment.UpdateDetailFragment;
 import edu.bluejack19_1.BloodFOR.Model.Event;
 import edu.bluejack19_1.BloodFOR.Model.User;
 import edu.bluejack19_1.BloodFOR.interfacs.DataListener;
@@ -51,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment =  null;
         switch (item.getItemId()){
-
             case R.id.nav_home:
                 fragment = new HomeFragment();
                 break;
@@ -59,12 +62,13 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
                 fragment = new HistoryFragment();
                 break;
             case R.id.nav_statistic:
-//                fragment = new FavoriteFragment();
+                fragment = new StatisticFragment();
                 break;
             case R.id.nav_profile:
-//                Log.d("baki", "onNavigationItemSelected: test 4");
-                //nanti masukin parameter dari putstring email dari loginactivity
                 fragment = new ProfileFragment();
+                break;
+            default:
+                fragment = new HomeFragment();
                 break;
         }
         return loadFragment(fragment, false);
@@ -88,14 +92,14 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Bundle extras = getIntent().getExtras();
-        if(extras != null) {
-            email = extras.getString("email");
-        }
         BottomNavigationView btm = findViewById(R.id.bn_main);
         btm.setOnNavigationItemSelectedListener(this);
         contextOfApplication = getApplicationContext();
+
+        email = extras.getString("email");
         uid = extras.getString("uid");
         cekGoogle = extras.getBoolean("cekGoogle");
+        loadFragment(new HomeFragment(),false);
     }
 
     @Override
@@ -104,8 +108,12 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
     }
 
     @Override
-    public void gotoParticipateFragment(Event event) {
-        loadFragment(new DetailFragment(event),true);
+    public void gotoHistoryDetailFragment(Event event) {
+        loadFragment(new HistoryDetailFragment(event),true);
+    }
+    @Override
+    public void gotoDelete(Event event) {
+        loadFragment(new UpdateDetailFragment(event),true);
     }
 
     @Override

@@ -5,31 +5,30 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.tpamobile.R;
 
-import edu.bluejack19_1.BloodFOR.Fragment.HistoryFragment;
-import edu.bluejack19_1.BloodFOR.Fragment.HomeFragment;
+import edu.bluejack19_1.BloodFOR.Fragment.HistoryEventFragment;
 import edu.bluejack19_1.BloodFOR.Fragment.ProfileFragment;
 
-public class VIewPagerAdapter extends FragmentPagerAdapter {
+public class ViewPagerAdapter extends androidx.fragment.app.FragmentStatePagerAdapter {
 
     private Context context;
     private int numOfTabs;
 
-    public VIewPagerAdapter(@NonNull FragmentManager fm,int numOfTabs, Context context) {
-        super(fm);
+    public ViewPagerAdapter(@NonNull FragmentManager fm, int numOfTabs, Context context) {
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.context = context;
         this.numOfTabs = numOfTabs;
     }
+
 
     @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                    return new HomeFragment();
+                    return new HistoryEventFragment();
             case 1:
                     return new ProfileFragment();
 //                    return new PointFragment();

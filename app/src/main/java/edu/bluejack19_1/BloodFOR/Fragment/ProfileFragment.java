@@ -1,19 +1,15 @@
 package edu.bluejack19_1.BloodFOR.Fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +24,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.tpamobile.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -36,16 +31,19 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
+import edu.bluejack19_1.BloodFOR.InsertDataActivity;
 import edu.bluejack19_1.BloodFOR.LoginActivity;
 import edu.bluejack19_1.BloodFOR.MainActivity;
 import edu.bluejack19_1.BloodFOR.Model.User;
+import edu.bluejack19_1.BloodFOR.PasswordActivity;
 
 public class ProfileFragment extends Fragment {
 
@@ -54,31 +52,63 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseDatabase getDatabase;
     private DatabaseReference getReference;
-    private String GetUserID;
-    private String email2, downloadURL;
+    private String GetUserID, role, profPic;
+    private String email2, downloadURL, password;
     private RadioButton maleProfile, femaleProfile;
-    private Button changeProfilePicture, saveBtn, insertEvent, changePassword;
+    private Button logoutBtn, changeProfilePictureBtn, saveBtn, insertEventBtn, changePassword, updateEventBtn, uploadBtn;
     private StorageReference storageReference;
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
-    FirebaseStorage storage;
-    StorageReference ref;
-    public static View view2;
+    private FirebaseStorage storage;
+    private StorageReference ref;
     private RadioButton a,b,o,ab;
+    public static View view2;
+
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
         view2 = view;
-        changeProfilePicture.setOnClickListener(new View.OnClickListener() {
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        assert user != null;
+        GetUserID = user.getUid();
+
+        changeProfilePictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseImage(view);
             }
         });
+
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                uploadImage();
+            }
+        });
+
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), PasswordActivity.class);
+                String email = MainActivity.email;
+                String uid = MainActivity.uid;
+                Boolean cek = MainActivity.cekGoogle;
+                i.putExtra("email",email);
+                i.putExtra("uid",uid);
+                i.putExtra("cek",cek);
+                password = LoginActivity.pass;
+                i.putExtra("password",password);
+                Objects.requireNonNull(getActivity()).finish();
+                startActivity(i);
+            }
+        });
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                profPic = downloadURL;
                 String emailTxt = email.getText().toString();
                 final String firstNameTxt = firstName.getText().toString();
                 String lastNameTxt = lastName.getText().toString();
@@ -88,7 +118,6 @@ public class ProfileFragment extends Fragment {
                 }else{
                     gender = "Female";
                 }
-
                 String bloodType = "";
                 if(a.isChecked()) bloodType = "A";
                 else if(b.isChecked()) bloodType = "B";
@@ -96,7 +125,7 @@ public class ProfileFragment extends Fragment {
                 else if (o.isChecked()) bloodType = "O";
                 else bloodType = "-";
 
-                final User saveData = new User( uploadImage()+"", firstNameTxt, lastNameTxt, emailTxt, gender,bloodType);
+                final User saveData = new User( profPic, firstNameTxt, lastNameTxt, emailTxt, gender, bloodType, role);
                 getReference.child("User").child(GetUserID).setValue(saveData).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -109,6 +138,58 @@ public class ProfileFragment extends Fragment {
                         .into(profilePic);
             }
         });
+
+        insertEventBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), InsertDataActivity.class);
+                String email = MainActivity.email;
+                String uid = MainActivity.uid;
+                Boolean cek = MainActivity.cekGoogle;
+                i.putExtra("email",email);
+                i.putExtra("uid",uid);
+                i.putExtra("cek",cek);
+                String lats = "-6.0";
+                String longs = "106.0";
+                i.putExtra("longitude",longs);
+                i.putExtra("latitude",lats);
+
+                getActivity().finish();
+                startActivity(i);
+            }
+        });
+
+        updateEventBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new UpdateDataFragment(), true);
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                getActivity().finish();
+                MainActivity.uid = "";
+                MainActivity.cekGoogle = false;
+                MainActivity.email = "";
+                startActivity(i);
+            }
+        });
+    }
+
+    public boolean loadFragment(Fragment fragment, boolean check) {
+        if (fragment != null && check) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, fragment).addToBackStack(null).commit();
+            return true;
+        }else if (fragment != null && !check) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.fl_container, fragment).commit();
+            return true;
+        }
+        return false;
     }
 
     public void chooseImage(final View view) {
@@ -134,6 +215,7 @@ public class ProfileFragment extends Fragment {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(getActivity(), "Uploaded", Toast.LENGTH_SHORT).show();
                             ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -168,11 +250,13 @@ public class ProfileFragment extends Fragment {
         lastName = view.findViewById(R.id.last_name_profile);
         maleProfile = view.findViewById(R.id.radio_male);
         femaleProfile = view.findViewById(R.id.radio_female);
-        changeProfilePicture = view.findViewById(R.id.choose_button);
+        changeProfilePictureBtn = view.findViewById(R.id.choose_button);
         changePassword = view.findViewById(R.id.password_button);
-        insertEvent = view.findViewById(R.id.insert_event_button);
+        insertEventBtn = view.findViewById(R.id.insert_event_button);
         saveBtn = view.findViewById(R.id.save_button);
-
+        updateEventBtn = view.findViewById(R.id.update_event_button);
+        logoutBtn = view.findViewById(R.id.logout_button);
+        uploadBtn = view.findViewById(R.id.upload_button);
         a = view.findViewById(R.id.type_a);
         b = view.findViewById(R.id.type_b);
         ab = view.findViewById(R.id.type_ab);
@@ -188,6 +272,23 @@ public class ProfileFragment extends Fragment {
         }
         getDatabase = FirebaseDatabase.getInstance();
         getReference = getDatabase.getReference();
+
+
+        getReference.child("User").child(GetUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("role").getValue().toString().equals("Member")){
+                        insertEventBtn.setVisibility(view.GONE);
+                        updateEventBtn.setVisibility(view.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         getReference.child("User").orderByChild("email").equalTo(email2).addChildEventListener(new ChildEventListener() {
@@ -200,7 +301,9 @@ public class ProfileFragment extends Fragment {
                 final String lastNameUser = dataSnapshot.child("lastName").getValue(String.class);
                 final String genderUser = dataSnapshot.child("gender").getValue(String.class);
                 final String bloodTypeUser = dataSnapshot.child("bloodType").getValue(String.class);
-                User user = new User(profilePicUser, firstNameUser, lastNameUser, emailUser, genderUser,bloodTypeUser );
+                role = dataSnapshot.child("role").getValue(String.class);
+                profPic = profilePicUser;
+                User user = new User(profilePicUser, firstNameUser, lastNameUser, emailUser, genderUser, bloodTypeUser, role);
                 email.setText(""+user.getEmail());
                 firstName.setText(""+user.getFirstName());
                 lastName.setText(""+user.getLastName());

@@ -7,6 +7,7 @@
     tools:context="edu.bluejack19_1.BloodFOR.Fragment.ProfileFragment">
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -179,13 +180,28 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="270dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/button"
+                android:background="@drawable/button3"
                 android:text="@string/change_profile_pic"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email_profile" />
+
+            <Button
+                android:id="@+id/upload_button"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/button3"
+                android:text="@string/upload_pic"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/choose_button" />
 
             <Button
                 android:id="@+id/save_button"
@@ -200,7 +216,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/choose_button" />
+                app:layout_constraintTop_toBottomOf="@+id/upload_button" />
 
             <Button
                 android:id="@+id/password_button"
@@ -209,13 +225,28 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
-                android:background="@drawable/button"
+                android:background="@drawable/button4"
                 android:text="@string/change_password"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/save_button" />
+
+            <Button
+                android:id="@+id/logout_button"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/button5"
+                android:text="@string/logout"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password_button" />
 
             <Button
                 android:id="@+id/insert_event_button"
@@ -230,10 +261,27 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logout_button"
+                app:layout_constraintVertical_bias="0.063" />
+
+            <Button
+                android:id="@+id/update_event_button"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button2"
+                android:text="@string/update_event"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/password_button" />
-
+                app:layout_constraintTop_toBottomOf="@id/insert_event_button" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </ScrollView>

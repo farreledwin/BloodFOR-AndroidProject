@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
         register();
         login();
     }
+
     private void login(){
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
     private void  init(){
         firstNameRegister = findViewById(R.id.first_name_register);
         lastNameRegister = findViewById(R.id.last_name_register);
@@ -68,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
         ab = findViewById(R.id.type_ab);
         o = findViewById(R.id.type_o);
     }
+
     private void  register(){
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +132,8 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                User newUser = new User(profilePicture, firstName, lastName, email, gender, bloodType);
+                                final String role = "Member";
+                                User newUser = new User(profilePicture, firstName, lastName, email, gender, bloodType,role);
 
                                 dbRef.child("User").child(task.getResult().getUser().getUid()).setValue(newUser);
                                 Toast.makeText(RegisterActivity.this,
@@ -144,6 +148,13 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent setIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+        startActivity(setIntent);
     }
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());

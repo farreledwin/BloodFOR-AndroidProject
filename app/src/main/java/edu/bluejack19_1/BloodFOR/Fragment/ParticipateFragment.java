@@ -1,7 +1,5 @@
 package edu.bluejack19_1.BloodFOR.Fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +14,6 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.tpamobile.R;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,7 +36,7 @@ public class ParticipateFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_participate, container, false);
     }
@@ -48,6 +45,7 @@ public class ParticipateFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
+
         participateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +69,7 @@ public class ParticipateFragment extends Fragment {
         });
     }
 
-    public boolean loadFragment(Fragment fragment, boolean check) {
+    private boolean loadFragment(Fragment fragment, boolean check) {
         if (fragment != null && check) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.fl_container, fragment).addToBackStack(null).commit();

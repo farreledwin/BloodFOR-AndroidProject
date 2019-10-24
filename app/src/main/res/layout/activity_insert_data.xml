@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="edu.bluejack19_1.BloodFOR.InsertDataActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:text="@string/insert_event"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            tools:layout_editor_absoluteX="57dp"
+            tools:layout_editor_absoluteY="52dp" />
+
+        <EditText
+            android:id="@+id/eventDateTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/eventName" />
+
+        <EditText
+            android:id="@+id/eventLocationText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/eventLoc"/>
+
+        <EditText
+            android:id="@+id/eventDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/eventDate" />
+
+        <EditText
+            android:id="@+id/eventDescTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/eventDesc" />
+
+        <EditText
+            android:id="@+id/eventLongitudeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/event_long" />
+
+        <EditText
+            android:id="@+id/eventLatitudeTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/event_lat" />
+
+        <Button
+            android:id="@+id/imageUploadBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/choose_img" />
+
+        <ImageView
+            android:id="@+id/imgView"
+            android:contentDescription="@string/event_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <Button
+            android:id="@+id/uploadBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_pic" />
+
+        <Button
+            android:id="@+id/gotomaps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/goto_maps" />
+
+        <Button
+            android:id="@+id/insertBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/insert_event" />
+
+    </LinearLayout>
+</ScrollView>

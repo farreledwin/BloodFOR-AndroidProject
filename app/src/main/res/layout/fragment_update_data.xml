@@ -1,0 +1,17 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="edu.bluejack19_1.BloodFOR.Fragment.UpdateDataFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_events"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/check_box_geolocation"
+        tools:listitem="@layout/item_row_event" />
+
+</FrameLayout>
