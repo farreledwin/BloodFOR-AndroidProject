@@ -167,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                                 ref.child("profilePicture").setValue(newUser.getProfilePicture());
                                 ref.child("bloodType").setValue(newUser.getBloodType());
                                 ref.child("role").setValue(newUser.getRole());
+                                Log.d("baki", newUser.getBloodType());
                             }
                             Bundle bundle = new Bundle();
                             bundle.putString("email", personEmail);

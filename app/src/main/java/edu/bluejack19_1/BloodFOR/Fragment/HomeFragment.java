@@ -74,15 +74,15 @@ public class HomeFragment extends Fragment {
         init(view);
         addData();
 
-        geo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(geo.isChecked()){
-                    geolocation();
-                }
-                else addData();
-            }
-        });
+//        geo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if(geo.isChecked()){
+//                    geolocation();
+//                }
+//                else addData();
+//            }
+//        });
 
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -128,7 +128,8 @@ public class HomeFragment extends Fragment {
                             }
                             Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
                             Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
-                            Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude);
+                            String eventId = d.getKey();
+                            Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude, eventId);
 
                             assert eventDate != null;
                             if(eventDate.after(today)){
@@ -169,7 +170,8 @@ public class HomeFragment extends Fragment {
                     }
                     Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
                     Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
-                    Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude);
+                    String eventId = d.getKey();
+                    Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude, eventId);
 
                     assert eventDate != null;
                     if(eventDate.after(today))
@@ -241,7 +243,8 @@ public class HomeFragment extends Fragment {
                                 }
                                 Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
                                 Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
-                                Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude);
+                                String eventId = d.getKey();
+                                Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude, eventId);
                                 assert eventDate != null;
                                 if(eventDate.after(today))
                                     listEvent.add(e);

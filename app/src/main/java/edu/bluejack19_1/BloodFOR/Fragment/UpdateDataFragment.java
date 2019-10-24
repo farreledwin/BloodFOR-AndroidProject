@@ -85,7 +85,8 @@ public class UpdateDataFragment extends Fragment {
                     }
                     Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
                     Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
-                    Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude);
+                    String eventId = d.getKey();
+                    Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude, eventId);
                     listEvent.add(e);
                 }
                 showRecyclerList();

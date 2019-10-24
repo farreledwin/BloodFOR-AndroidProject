@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.tpamobile.R;
 
 import edu.bluejack19_1.BloodFOR.Fragment.HistoryEventFragment;
+import edu.bluejack19_1.BloodFOR.Fragment.ListItemRedeemFragment;
 import edu.bluejack19_1.BloodFOR.Fragment.ProfileFragment;
 
 public class ViewPagerAdapter extends androidx.fragment.app.FragmentStatePagerAdapter {
@@ -30,8 +31,7 @@ public class ViewPagerAdapter extends androidx.fragment.app.FragmentStatePagerAd
             case 0:
                     return new HistoryEventFragment();
             case 1:
-                    return new ProfileFragment();
-//                    return new PointFragment();
+                    return new ListItemRedeemFragment();
             default:
                     return null;
         }

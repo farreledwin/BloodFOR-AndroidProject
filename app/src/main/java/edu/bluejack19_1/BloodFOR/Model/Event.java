@@ -3,6 +3,7 @@ package edu.bluejack19_1.BloodFOR.Model;
 import java.util.Date;
 
 public class Event {
+    private String eventID;
     private String eventPicture;
     private String eventName;
     private String eventDesc;
@@ -10,6 +11,14 @@ public class Event {
     private Date eventDate;
     private Double eventLatitude;
     private Double eventLongitude;
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
+    }
 
     public String getEventPicture() {
         return eventPicture;
@@ -67,7 +76,8 @@ public class Event {
         this.eventLongitude = eventLongitude;
     }
 
-    public Event(String eventPicture, String eventName, String eventDesc, String eventLocation, Date eventDate, Double eventLatitude, Double eventLongitude) {
+    public Event(String eventPicture, String eventName, String eventDesc, String eventLocation, Date eventDate, Double eventLatitude, Double eventLongitude, String eventID) {
+        this.eventID = eventID;
         this.eventPicture = eventPicture;
         this.eventName = eventName;
         this.eventDesc = eventDesc;

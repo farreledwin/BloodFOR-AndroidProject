@@ -100,7 +100,7 @@ public class InsertDataActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(eventTxt.getText().toString()) && !TextUtils.isEmpty(eventDesc.getText().toString()) && !TextUtils.isEmpty(eventLongitude.getText().toString()) && !TextUtils.isEmpty(eventLatitude.getText().toString()) && !TextUtils.isEmpty(eventDateTxt.getText().toString())
                         && !TextUtils.isEmpty((eventLocationTxt.getText().toString()))) {
                     try {
-                        submitData(new Event(downloadURL, eventTxt.getText().toString(), eventDesc.getText().toString(),eventLocationTxt.getText().toString(), formatter.parse(eventDateTxt.getText().toString()),Double.parseDouble(eventLatitude.getText().toString()),Double.parseDouble(eventLongitude.getText().toString())));
+                        submitData(new Event(downloadURL, eventTxt.getText().toString(), eventDesc.getText().toString(),eventLocationTxt.getText().toString(), formatter.parse(eventDateTxt.getText().toString()),Double.parseDouble(eventLatitude.getText().toString()),Double.parseDouble(eventLongitude.getText().toString()),""));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

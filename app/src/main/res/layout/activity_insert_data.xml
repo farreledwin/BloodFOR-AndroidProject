@@ -13,6 +13,7 @@
         android:orientation="vertical"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
+        android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp">
 
         <TextView
@@ -22,6 +23,7 @@
             android:text="@string/insert_event"
             android:textAlignment="center"
             android:textSize="30sp"
+            android:layout_marginTop="20dp"
             tools:layout_editor_absoluteX="57dp"
             tools:layout_editor_absoluteY="52dp" />
 
@@ -30,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginTop="20dp"
             android:hint="@string/eventName" />
 
         <EditText
@@ -37,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginTop="20dp"
             android:hint="@string/eventLoc"/>
 
         <EditText
@@ -44,6 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginTop="20dp"
             android:hint="@string/eventDate" />
 
         <EditText
@@ -51,6 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginTop="20dp"
             android:hint="@string/eventDesc" />
 
         <EditText
@@ -58,6 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginTop="20dp"
             android:hint="@string/event_long" />
 
         <EditText
@@ -65,12 +72,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:layout_marginTop="20dp"
             android:hint="@string/event_lat" />
 
         <Button
             android:id="@+id/imageUploadBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button3"
+            android:textColor="@color/white"
             android:text="@string/choose_img" />
 
         <ImageView
@@ -78,24 +89,33 @@
             android:contentDescription="@string/event_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             tools:srcCompat="@tools:sample/avatars" />
 
         <Button
             android:id="@+id/uploadBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button3"
+            android:textColor="@color/white"
             android:text="@string/upload_pic" />
 
         <Button
             android:id="@+id/gotomaps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button5"
             android:text="@string/goto_maps" />
 
         <Button
             android:id="@+id/insertBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button2"
             android:text="@string/insert_event" />
 
     </LinearLayout>
