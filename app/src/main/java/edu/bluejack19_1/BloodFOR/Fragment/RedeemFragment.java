@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import edu.bluejack19_1.BloodFOR.Adapter.RedeemAdapter;
+import edu.bluejack19_1.BloodFOR.MainActivity;
 import edu.bluejack19_1.BloodFOR.Model.CodeReedem;
 
 public class RedeemFragment extends Fragment {
@@ -56,7 +57,7 @@ public class RedeemFragment extends Fragment {
     }
 
     private void addData() {
-        getReference.child("User").child("4BL6nKoB7hYtj3MJEOUUi2L2EGv1").child("ReedemCode").addListenerForSingleValueEvent(new ValueEventListener() {
+        getReference.child("User").child(MainActivity.uid).child("ReedemCode").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listReedem.clear();
