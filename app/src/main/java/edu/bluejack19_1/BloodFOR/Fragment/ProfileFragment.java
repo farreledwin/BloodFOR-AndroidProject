@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -55,7 +56,7 @@ public class ProfileFragment extends Fragment {
     private String GetUserID, role, profPic;
     private String email2, downloadURL, password;
     private RadioButton maleProfile, femaleProfile;
-    private Button logoutBtn, changeProfilePictureBtn, saveBtn, insertEventBtn, changePassword, updateEventBtn, uploadBtn;
+    private Button redeemBtn, logoutBtn, changeProfilePictureBtn, saveBtn, insertEventBtn, changePassword, updateEventBtn, uploadBtn;
     private StorageReference storageReference;
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -63,16 +64,16 @@ public class ProfileFragment extends Fragment {
     private StorageReference ref;
     private RadioButton a,b,o,ab;
     public static View view2;
-
+    private TextView point;
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
         view2 = view;
         auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        assert user != null;
-        GetUserID = user.getUid();
+//        FirebaseUser user = auth.getCurrentUser();
+//        assert user != null;
+//        GetUserID = user.getUid();
 
         changeProfilePictureBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +167,12 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        redeemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new ListItemRedeemFragment(), true);
+            }
+        });
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,7 +186,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    public boolean loadFragment(Fragment fragment, boolean check) {
+    private boolean loadFragment(Fragment fragment, boolean check) {
         if (fragment != null && check) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.fl_container, fragment).addToBackStack(null).commit();
@@ -192,7 +199,7 @@ public class ProfileFragment extends Fragment {
         return false;
     }
 
-    public void chooseImage(final View view) {
+    private void chooseImage(final View view) {
         Intent intent = new Intent();
         intent.setType("image/*");
         filePath = MainActivity.filePath;
@@ -244,6 +251,7 @@ public class ProfileFragment extends Fragment {
 
 
     private void init(final View view){
+        point = view.findViewById(R.id.point);
         profilePic = view.findViewById(R.id.profile_picture);
         email = view.findViewById(R.id.email_profile);
         firstName = view.findViewById(R.id.first_name_profile);
@@ -255,6 +263,7 @@ public class ProfileFragment extends Fragment {
         insertEventBtn = view.findViewById(R.id.insert_event_button);
         saveBtn = view.findViewById(R.id.save_button);
         updateEventBtn = view.findViewById(R.id.update_event_button);
+        redeemBtn = view.findViewById(R.id.redeem_button);
         logoutBtn = view.findViewById(R.id.logout_button);
         uploadBtn = view.findViewById(R.id.upload_button);
         a = view.findViewById(R.id.type_a);
@@ -262,11 +271,16 @@ public class ProfileFragment extends Fragment {
         ab = view.findViewById(R.id.type_ab);
         o = view.findViewById(R.id.type_o);
         auth = FirebaseAuth.getInstance();
-        if(!MainActivity.cekGoogle) {
+        if(!MainActivity.cekGoogle && !MainActivity.cekFb) {
             FirebaseUser user = auth.getCurrentUser();
             GetUserID = user.getUid();
             email2 = user.getEmail();
-        }else{
+        }
+        else if(MainActivity.cekFb){
+            GetUserID = MainActivity.uid;
+            email2 = MainActivity.email;
+        }
+        else{
             GetUserID = MainActivity.uid;
             email2 = MainActivity.email;
         }
@@ -281,6 +295,7 @@ public class ProfileFragment extends Fragment {
                         insertEventBtn.setVisibility(view.GONE);
                         updateEventBtn.setVisibility(view.GONE);
                 }
+                point.setText(dataSnapshot.child("point").getValue(String.class));
             }
 
             @Override
@@ -307,6 +322,7 @@ public class ProfileFragment extends Fragment {
                 email.setText(""+user.getEmail());
                 firstName.setText(""+user.getFirstName());
                 lastName.setText(""+user.getLastName());
+
                 if(user.getGender().equals("Male")){
                     maleProfile.setChecked(true);
                 }else{

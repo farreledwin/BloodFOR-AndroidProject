@@ -58,10 +58,11 @@
     <string name="old_pass">Old Password</string>
     <string name="new_pass">New Password</string>
     <string name="update_event">Update Event</string>
-    <string name="delete_event">Delete</string>
+    <string name="delete_event">Delete Event</string>
     <string name="logout">Logout</string>
     <string name="insert_review">Insert Review</string>
     <string name="review">Review</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="redeem">Redeem Point</string>
+    <!-- TODO: Remove or >change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

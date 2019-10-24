@@ -23,6 +23,7 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -67,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private DatabaseReference dbRef;
     public  static String pass;
+    private ProfileTracker mProfileTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                             myIntent.putExtra("uid", uid);
                             myIntent.putExtra("cekGoogle", true);
+                            myIntent.putExtra("cekFb", false);
                             myIntent.putExtra("email",personEmail);
                             startActivity(myIntent);
                             finish();
@@ -198,13 +201,25 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken();
-                final Profile profile = Profile.getCurrentProfile();
+//                final Profile profile = Profile.getCurrentProfile();
+                if(Profile.getCurrentProfile() == null) {
+                    mProfileTracker = new ProfileTracker() {
+                        @Override
+                        protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                            Log.v("facebook - profile", currentProfile.getFirstName());
+                            mProfileTracker.stopTracking();
+                        }
+                    };
+                    // no need to call startTracking() on mProfileTracker
+                    // because it is called by its constructor, internally.
+                }
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
                                     String personEmail = object.getString("email");
+                                    Profile profile = Profile.getCurrentProfile();
                                     setEmail(profile, personEmail);
                                     Toast.makeText(getApplicationContext(), "Hi, " + object.getString("name"), Toast.LENGTH_LONG).show();
                                 } catch (JSONException ex) {
@@ -239,20 +254,50 @@ public class LoginActivity extends AppCompatActivity {
         final String password = "farrel";
         final String bloodType = "A";
         final String role = "Member";
-        firebaseAuth.createUserWithEmailAndPassword(personEmail, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    User newUser = new User(personPhoto.toString(), personName, personLastName, personEmail, personGender, bloodType, role);
+        Log.d("Baki", email.toString());
+        dbRef = FirebaseDatabase.getInstance().getReference();
 
-                    dbRef.child("User").child(task.getResult().getUser().getUid()).setValue(newUser);
-                    Toast.makeText(LoginActivity.this,
-                            "Succes Register"
-                            , Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(myIntent);
-                    finish();
+        DatabaseReference refs = FirebaseDatabase.getInstance().getReference().child("User");
+        refs.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                boolean found = false;
+                String uid = "";
+                for(DataSnapshot d : dataSnapshot.getChildren()){
+                    if(personEmail.equals(d.child("email").getValue())){
+                        found = true;
+                        uid = d.getKey();
+                    }
                 }
+                if(!found){
+                    User newUser = new User(""+personPhoto, personName, personLastName, personEmail, personGender, bloodType, role);
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User").push();
+                    uid = ref.getKey();
+                    ref.child("email").setValue(newUser.getEmail());
+                    ref.child("firstName").setValue(newUser.getFirstName());
+                    ref.child("lastName").setValue(newUser.getLastName());
+                    ref.child("gender").setValue(newUser.getGender());
+                    ref.child("profilePicture").setValue(newUser.getProfilePicture());
+                    ref.child("bloodType").setValue(newUser.getBloodType());
+                    ref.child("role").setValue(newUser.getRole());
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("email", personEmail);
+                bundle.putString("pass", password);
+                Toast.makeText(LoginActivity.this,"Success Login",Toast.LENGTH_LONG).show();
+                Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                myIntent.putExtra("uid", uid);
+                myIntent.putExtra("cekGoogle", false);
+                myIntent.putExtra("cekFb", true);
+                myIntent.putExtra("email",personEmail);
+                startActivity(myIntent);
+                finish();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
             }
         });
     }
@@ -303,6 +348,8 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this,"Success Login",Toast.LENGTH_LONG).show();
                                         Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
                                         myIntent.putExtra("email",email);
+                                        myIntent.putExtra("cekGoogle", false);
+                                        myIntent.putExtra("cekFb", false);
                                         myIntent.putExtra("uid",task.getResult().getUser().getUid());
                                         startActivity(myIntent);
                                         finish();

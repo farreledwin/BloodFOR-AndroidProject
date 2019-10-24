@@ -46,7 +46,7 @@ import edu.bluejack19_1.BloodFOR.interfacs.DataListener;
 public class MainActivity extends AppCompatActivity implements DataListener, BottomNavigationView.OnNavigationItemSelectedListener{
 
     public static String email,uid;
-    public static Boolean cekGoogle;
+    public static Boolean cekGoogle, cekFb;
     public static Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
     public static Bitmap bitmap;
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
         email = extras.getString("email");
         uid = extras.getString("uid");
         cekGoogle = extras.getBoolean("cekGoogle");
+        cekFb = extras.getBoolean("cekFb");
         loadFragment(new HomeFragment(),false);
     }
 

@@ -45,7 +45,7 @@ public class DetailFragment extends Fragment {
     private TextView eventName, eventDesc, eventLocation, eventDate;
     private ImageView eventPhoto;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-    private Button showMap, particiapteBtn, insertreviewbtn;
+    private Button showMap, participateBtn, insertreviewbtn;
     private EditText insertreviewtxt;
     private String GetUserID;
     private ArrayList<Review> listReview = new ArrayList<>();
@@ -76,7 +76,7 @@ public class DetailFragment extends Fragment {
                 .apply(new RequestOptions().override(400, 400))
                 .into(eventPhoto);
 
-        particiapteBtn.setOnClickListener(new View.OnClickListener() {
+        participateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("User").child(MainActivity.uid).child("Event").push();
@@ -135,7 +135,7 @@ public class DetailFragment extends Fragment {
         eventDesc = view.findViewById(R.id.event_desc);
         eventLocation = view.findViewById(R.id.event_location);
         eventDate = view.findViewById(R.id.event_date);
-        particiapteBtn = view.findViewById(R.id.participate_button);
+        participateBtn = view.findViewById(R.id.participate_button);
         showMap = view.findViewById(R.id.show_map_button);
         insertreviewtxt = view.findViewById(R.id.insert_review);
         insertreviewbtn = view.findViewById(R.id.insert_review_button);

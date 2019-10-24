@@ -9,6 +9,64 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="30dp"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="25dp">
+
+
+            <EditText
+                android:id="@+id/eventNameTxt"
+                android:layout_width="414dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="33dp"
+                android:ems="10"
+                android:hint="@string/eventName"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/eventDescTxt"
+                android:layout_width="414dp"
+                android:layout_height="44dp"
+                android:ems="10"
+                android:hint="@string/eventDesc"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/eventLocationTxt"
+                android:layout_width="414dp"
+                android:layout_height="44dp"
+                android:ems="10"
+                android:hint="@string/eventLoc"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/eventDateTxt"
+                android:layout_width="414dp"
+                android:layout_height="44dp"
+                android:ems="10"
+                android:hint="@string/eventDate" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/updateBtn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="280dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/button"
+            android:text="@string/update_event"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <Button
             android:id="@+id/delete_event_button"
             android:layout_width="200dp"
