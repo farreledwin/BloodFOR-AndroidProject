@@ -74,15 +74,15 @@ public class HomeFragment extends Fragment {
         init(view);
         addData();
 
-//        geo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                if(geo.isChecked()){
-//                    geolocation();
-//                }
-//                else addData();
-//            }
-//        });
+        geo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(geo.isChecked()){
+                    geolocation();
+                }
+                else addData();
+            }
+        });
 
         search.addTextChangedListener(new TextWatcher() {
             @Override

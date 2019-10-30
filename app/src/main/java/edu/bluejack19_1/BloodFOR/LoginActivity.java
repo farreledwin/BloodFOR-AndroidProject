@@ -3,6 +3,8 @@ package edu.bluejack19_1.BloodFOR;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -45,6 +47,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Calendar;
+
 import edu.bluejack19_1.BloodFOR.Model.User;
 
 import static edu.bluejack19_1.BloodFOR.RegisterActivity.isValidEmail;
@@ -79,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         google();
         login();
         register();
-        setGooglePlusButtonText(google, "Login with Google");
+//        setGooglePlusButtonText(google, "Login with Google");
         facebookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,29 +91,29 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        googleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                google.performClick();
-            }
-        });
+//        googleBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                google.performClick();
+//            }
+//        });
     }
-    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
-        for (int i = 0; i < signInButton.getChildCount(); i++) {
-            View v = signInButton.getChildAt(i);
-
-            if (v instanceof TextView) {
-                TextView tv = (TextView) v;
-                tv.setText(buttonText);
-                tv.setTextColor(getResources().getColor(R.color.white));
-                tv.setBackground(getResources().getDrawable(
-                        R.drawable.button3));
-                tv.setSingleLine(true);
-                tv.setTextSize(17);
-                return;
-            }
-        }
-    }
+//    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+//        for (int i = 0; i < signInButton.getChildCount(); i++) {
+//            View v = signInButton.getChildAt(i);
+//
+//            if (v instanceof TextView) {
+//                TextView tv = (TextView) v;
+//                tv.setText(buttonText);
+//                tv.setTextColor(getResources().getColor(R.color.white));
+//                tv.setBackground(getResources().getDrawable(
+//                        R.drawable.button3));
+//                tv.setSingleLine(true);
+//                tv.setTextSize(17);
+//                return;
+//            }
+//        }
+//    }
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent,100);
@@ -351,6 +355,7 @@ public class LoginActivity extends AppCompatActivity {
                                         myIntent.putExtra("cekGoogle", false);
                                         myIntent.putExtra("cekFb", false);
                                         myIntent.putExtra("uid",task.getResult().getUser().getUid());
+
                                         startActivity(myIntent);
                                         finish();
                                     }
@@ -383,7 +388,7 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = findViewById(R.id.login_button);
         registerBtn = findViewById(R.id.register_text);
         facebookBtn = findViewById(R.id.facebook_buttons);
-        googleBtn = findViewById(R.id.google_buttons);
+//        googleBtn = findViewById(R.id.google_buttons);
         mAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
         facebook.setReadPermissions("public_profile");
