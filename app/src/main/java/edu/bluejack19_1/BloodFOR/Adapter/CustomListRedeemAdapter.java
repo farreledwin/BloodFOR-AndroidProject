@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
 
 public class CustomListRedeemAdapter extends ArrayAdapter<String> {
 

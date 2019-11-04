@@ -63,6 +63,8 @@
     <string name="insert_review">Insert Review</string>
     <string name="review">Review</string>
     <string name="redeem">Redeem Point</string>
+    <string name="point_">Point : </string>
+    <string name="about_event">About this event</string>
     <!-- TODO: Remove or >change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

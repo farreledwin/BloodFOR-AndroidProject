@@ -13,7 +13,8 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 

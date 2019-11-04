@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
 
 import java.util.ArrayList;
 import edu.bluejack19_1.BloodFOR.Model.Review;

@@ -13,22 +13,28 @@
         android:layout_centerVertical="true"
         android:orientation="vertical">
 
-
         <TextView
             android:id="@+id/reviewerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="@string/first_name"/>
 
         <TextView
             android:id="@+id/reviewerDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2" />
+            android:maxLines="2"
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"
+            tools:text="@string/review"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/grey" />
 
     </LinearLayout>
-
 </RelativeLayout>

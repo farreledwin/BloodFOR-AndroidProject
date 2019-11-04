@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

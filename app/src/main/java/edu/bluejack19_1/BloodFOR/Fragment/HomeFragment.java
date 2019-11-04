@@ -2,6 +2,7 @@ package edu.bluejack19_1.BloodFOR.Fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,17 +17,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.InsertDataActivity;
+import edu.bluejack19_1.BloodFOR.MainActivity;
+import edu.bluejack19_1.BloodFOR.R;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,10 +67,13 @@ public class HomeFragment extends Fragment {
     private String mycity;
     private CheckBox geo;
     private Date today = new Date();
+    private FloatingActionButton insertEventBtn;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("unique", "testing");
         view = inflater.inflate(R.layout.fragment_event, container, false);
         return view;
     }
@@ -74,13 +84,23 @@ public class HomeFragment extends Fragment {
         init(view);
         addData();
 
-        geo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        insertEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(geo.isChecked()){
-                    geolocation();
-                }
-                else addData();
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), InsertDataActivity.class);
+                String email = MainActivity.email;
+                String uid = MainActivity.uid;
+                Boolean cek = MainActivity.cekGoogle;
+                i.putExtra("email",email);
+                i.putExtra("uid",uid);
+                i.putExtra("cek",cek);
+                String lats = "-6.0";
+                String longs = "106.0";
+                i.putExtra("longitude",longs);
+                i.putExtra("latitude",lats);
+
+                getActivity().finish();
+                startActivity(i);
             }
         });
 
@@ -103,54 +123,54 @@ public class HomeFragment extends Fragment {
     }
 
     private void searchData(final Editable text) {
-            getReference.child("Event").orderByChild("eventName").startAt(text.toString())
-                    .endAt(text.toString() + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
+        getReference.child("Event").orderByChild("eventName").startAt(text.toString())
+                .endAt(text.toString() + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
 
-                    @Override
-                    public void onDataChange (@NonNull DataSnapshot dataSnapshot){
+            @Override
+            public void onDataChange (@NonNull DataSnapshot dataSnapshot){
 
-                    if (text.toString().equals("")) {
-                        listEvent.clear();
-                        if (geo.isChecked()) geolocation();
-                        else addData();
-                    } else {
-                        listEvent.clear();
-                        for (DataSnapshot d : dataSnapshot.getChildren()) {
-                            String eventPicture = d.child("eventPicture").getValue(String.class);
-                            String eventName = d.child("eventName").getValue(String.class);
-                            String eventDesc = d.child("eventDesc").getValue(String.class);
-                            String eventLocation = d.child("eventLocation").getValue(String.class);
-                            Date eventDate = null;
-                            try {
-                                eventDate = formatter.parse(d.child("eventDate").getValue(String.class)+"");
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
-                            Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
-                            String eventId = d.getKey();
-                            Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude, eventId);
+                if (text.toString().equals("")) {
+                    listEvent.clear();
+                    if (geo.isChecked()) geolocation();
+                    else addData();
+                } else {
+                    listEvent.clear();
+                    for (DataSnapshot d : dataSnapshot.getChildren()) {
+                        String eventPicture = d.child("eventPicture").getValue(String.class);
+                        String eventName = d.child("eventName").getValue(String.class);
+                        String eventDesc = d.child("eventDesc").getValue(String.class);
+                        String eventLocation = d.child("eventLocation").getValue(String.class);
+                        Date eventDate = null;
+                        try {
+                            eventDate = formatter.parse(d.child("eventDate").getValue(String.class)+"");
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Double eventLatitude = Double.parseDouble(d.child("eventLatitude").getValue(String.class));
+                        Double eventLongitude = Double.parseDouble(d.child("eventLongitude").getValue(String.class));
+                        String eventId = d.getKey();
+                        Event e = new Event(eventPicture, eventName, eventDesc, eventLocation, eventDate, eventLatitude, eventLongitude, eventId);
 
-                            assert eventDate != null;
-                            if(eventDate.after(today)){
-                                if(geo.isChecked()){
-                                    assert eventLocation != null;
-                                    if(eventLocation.equals(mycity))
+                        assert eventDate != null;
+                        if(eventDate.after(today)){
+                            if(geo.isChecked()){
+                                assert eventLocation != null;
+                                if(eventLocation.equals(mycity))
                                     listEvent.add(e);
-                                }
-                                else listEvent.add(e);
                             }
-                          }
+                            else listEvent.add(e);
+                        }
                     }
-                    showRecyclerList();
                 }
+                showRecyclerList();
+            }
 
-                    @Override
-                    public void onCancelled (@NonNull DatabaseError databaseError){
+            @Override
+            public void onCancelled (@NonNull DatabaseError databaseError){
 
-                    }
-            });
-        }
+            }
+        });
+    }
 
     private void addData() {
         getReference.child("Event").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -202,6 +222,31 @@ public class HomeFragment extends Fragment {
         rvEventView.setLayoutManager(layoutManager);
         getReference = getDatabase.getReference();
         geo = view.findViewById(R.id.check_box_geolocation);
+        insertEventBtn = view.findViewById(R.id.insert_event_button);
+
+        getReference.child("User").child(MainActivity.uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("role").getValue().toString().equals("Member")){
+                    insertEventBtn.hide();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        geo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Log.d("Baki","sadas");
+                if(geo.isChecked()){
+                    geolocation();
+                }
+                else addData();
+            }
+        });
     }
 
     private void geolocation() {

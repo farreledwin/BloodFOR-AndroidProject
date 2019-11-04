@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
 
 import edu.bluejack19_1.BloodFOR.Fragment.HistoryEventFragment;
 import edu.bluejack19_1.BloodFOR.Fragment.ListItemRedeemFragment;

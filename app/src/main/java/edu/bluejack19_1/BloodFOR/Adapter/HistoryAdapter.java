@@ -14,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

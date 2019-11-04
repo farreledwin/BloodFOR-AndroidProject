@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         google();
         login();
         register();
-//        setGooglePlusButtonText(google, "Login with Google");
+        setGooglePlusButtonText(google, "Login with Google");
         facebookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,22 +98,20 @@ public class LoginActivity extends AppCompatActivity {
 //            }
 //        });
     }
-//    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
-//        for (int i = 0; i < signInButton.getChildCount(); i++) {
-//            View v = signInButton.getChildAt(i);
-//
-//            if (v instanceof TextView) {
-//                TextView tv = (TextView) v;
-//                tv.setText(buttonText);
-//                tv.setTextColor(getResources().getColor(R.color.white));
-//                tv.setBackground(getResources().getDrawable(
-//                        R.drawable.button3));
-//                tv.setSingleLine(true);
-//                tv.setTextSize(17);
-//                return;
-//            }
-//        }
-//    }
+    protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
+        for (int i = 0; i < signInButton.getChildCount(); i++) {
+            View v = signInButton.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                String x = "Sign In With Google";
+                tv.setText(x);
+                tv.setSingleLine(true);
+                tv.setTextSize(15);
+                return;
+            }
+        }
+    }
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent,100);

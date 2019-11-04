@@ -13,11 +13,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment fragment =  null;
+        boolean check = false;
         switch (item.getItemId()){
             case R.id.nav_home:
                 fragment = new HomeFragment();
@@ -65,13 +67,14 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
                 fragment = new StatisticFragment();
                 break;
             case R.id.nav_profile:
+                check = true;
                 fragment = new ProfileFragment();
                 break;
             default:
                 fragment = new HomeFragment();
                 break;
         }
-        return loadFragment(fragment, false);
+        return loadFragment(fragment, check);
     }
 
     public boolean loadFragment(Fragment fragment, boolean check) {
@@ -126,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 ProfileFragment.changeImage(ProfileFragment.view2,bitmap);
+                ProfileFragment.uploadImage(filePath);
+                ProfileFragment.pbar.setVisibility(View.VISIBLE);
             } catch (IOException e) {
                 e.printStackTrace();
             }

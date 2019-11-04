@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import edu.bluejack19_1.BloodFOR.Model.User;
 
-import com.example.tpamobile.R;
+import edu.bluejack19_1.BloodFOR.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
