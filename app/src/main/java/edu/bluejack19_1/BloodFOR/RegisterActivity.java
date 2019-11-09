@@ -133,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 final String role = "Member";
-                                User newUser = new User(profilePicture, firstName, lastName, email, gender, bloodType,role);
+                                User newUser = new User(profilePicture, firstName, lastName, email, gender, bloodType,role,"50");
 
                                 dbRef.child("User").child(task.getResult().getUser().getUid()).setValue(newUser);
                                 Toast.makeText(RegisterActivity.this,

@@ -9,6 +9,15 @@ public class User {
     private String gender;
     private String bloodType;
     private String role;
+    private String point;
+
+    public String getPoint() {
+        return point;
+    }
+
+    public void setPoint(String point) {
+        this.point = point;
+    }
 
     public String getRole() {
         return role;
@@ -66,7 +75,7 @@ public class User {
         this.gender = gender;
     }
 
-    public User(String profilePicture, String firstName, String lastName, String email, String gender,String bloodType, String role) {
+    public User(String profilePicture, String firstName, String lastName, String email, String gender,String bloodType, String role,String point) {
         this.profilePicture = profilePicture;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -74,5 +83,6 @@ public class User {
         this.gender = gender;
         this.bloodType = bloodType;
         this.role = role;
+        this.point = point;
     }
 }

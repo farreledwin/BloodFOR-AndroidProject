@@ -51,6 +51,7 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <receiver android:name="edu.bluejack19_1.BloodFOR.Model.NotificationPublisher" />
     </application>
 
 </manifest>

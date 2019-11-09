@@ -2,6 +2,7 @@ package edu.bluejack19_1.BloodFOR.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,7 +51,8 @@ import edu.bluejack19_1.BloodFOR.Model.User;
 import edu.bluejack19_1.BloodFOR.PasswordActivity;
 
 public class ProfileFragment extends Fragment {
-
+    private SharedPreferences loginPreferences;
+    private SharedPreferences.Editor loginPrefsEditor;
     public static ImageView profilePic;
     private EditText email,firstName,lastName;
     private FirebaseAuth auth;
@@ -73,6 +75,7 @@ public class ProfileFragment extends Fragment {
     private int checkUpload;
     static FragmentActivity activity;
     public static ProgressBar pbar;
+    private String pointupdate;
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -87,7 +90,8 @@ public class ProfileFragment extends Fragment {
                 chooseImage(view);
             }
         });
-
+//        Log.d("password",LoginActivity.pass);
+        Log.d("passwordanda",loginPreferences.getString("password",""));
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +109,9 @@ public class ProfileFragment extends Fragment {
                 i.putExtra("email",email);
                 i.putExtra("uid",uid);
                 i.putExtra("cek",cek);
-                password = LoginActivity.pass;
+//                password = LoginActivity.pass;
+
+
                 i.putExtra("password",password);
                 Objects.requireNonNull(getActivity()).finish();
                 startActivity(i);
@@ -133,14 +139,14 @@ public class ProfileFragment extends Fragment {
                 else if (o.isChecked()) bloodType = "O";
                 else bloodType = "-";
 
-                final User saveData = new User( profPic, firstNameTxt, lastNameTxt, emailTxt, gender, bloodType, role);
+                final User saveData = new User( profPic, firstNameTxt, lastNameTxt, emailTxt, gender, bloodType, role,point.getText().toString());
                 getReference.child("User").child(GetUserID).setValue(saveData).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getContext(),"Success Update Profile",Toast.LENGTH_LONG).show();
                     }
                 });
-                getReference.child("User").child(GetUserID).child("point").setValue("100");
+//                getReference.child("User").child(GetUserID).child("point").setValue("100");
                 Glide.with(view)
                         .load(saveData.getProfilePicture())
                         .apply(new RequestOptions().override(400, 400))
@@ -161,11 +167,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), LoginActivity.class);
-                getActivity().finish();
                 MainActivity.uid = "";
                 MainActivity.cekGoogle = false;
                 MainActivity.email = "";
+                loginPrefsEditor.remove("email");
+                loginPrefsEditor.apply();
                 startActivity(i);
+                getActivity().finish();
+
             }
         });
     }
@@ -236,6 +245,8 @@ public class ProfileFragment extends Fragment {
 
 
     private void init(final View view){
+        loginPreferences = getActivity().getSharedPreferences("loginPrefs",getActivity().MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
         pbar = view.findViewById(R.id.loading_bar);
         point = view.findViewById(R.id.point);
         profilePic = view.findViewById(R.id.profile_picture);
@@ -283,9 +294,12 @@ public class ProfileFragment extends Fragment {
                 final String lastNameUser = dataSnapshot.child("lastName").getValue(String.class);
                 final String genderUser = dataSnapshot.child("gender").getValue(String.class);
                 final String bloodTypeUser = dataSnapshot.child("bloodType").getValue(String.class);
+                final String points = dataSnapshot.child("point").getValue(String.class);
+                Log.d("point",points+"");
+
                 role = dataSnapshot.child("role").getValue(String.class);
                 profPic = profilePicUser;
-                User user = new User(profilePicUser, firstNameUser, lastNameUser, emailUser, genderUser, bloodTypeUser, role);
+                User user = new User(profilePicUser, firstNameUser, lastNameUser, emailUser, genderUser, bloodTypeUser, role,points);
                 email.setText(""+user.getEmail());
                 firstName.setText(""+user.getFirstName());
                 lastName.setText(""+user.getLastName());

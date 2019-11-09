@@ -78,7 +78,18 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         init();
+
+        if(!loginPreferences.getString("email", "").equals("")) {
+            Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+            myIntent.putExtra("email", loginPreferences.getString("email",""));
+            myIntent.putExtra("cekGoogle", false);
+            myIntent.putExtra("cekFb", false);
+            myIntent.putExtra("uid",loginPreferences.getString("uid",""));
+            startActivity(myIntent);
+            finish();
+        }
         facebook();
         google();
         login();
@@ -97,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 //                google.performClick();
 //            }
 //        });
+
     }
     protected void setGooglePlusButtonText(SignInButton signInButton, String buttonText) {
         for (int i = 0; i < signInButton.getChildCount(); i++) {
@@ -161,7 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                             if(!found){
-                                User newUser = new User(""+personPhoto, personFirstName, personLastName, personEmail, personGender, bloodType, role);
+                                User newUser = new User(""+personPhoto, personFirstName, personLastName, personEmail, personGender, bloodType, role,"50");
                                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User").push();
                                 uid = ref.getKey();
                                 ref.child("email").setValue(newUser.getEmail());
@@ -171,6 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                                 ref.child("profilePicture").setValue(newUser.getProfilePicture());
                                 ref.child("bloodType").setValue(newUser.getBloodType());
                                 ref.child("role").setValue(newUser.getRole());
+                                ref.child("point").setValue(newUser.getPoint());
                                 Log.d("baki", newUser.getBloodType());
                             }
                             Bundle bundle = new Bundle();
@@ -272,7 +285,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
                 if(!found){
-                    User newUser = new User(""+personPhoto, personName, personLastName, personEmail, personGender, bloodType, role);
+                    User newUser = new User(""+personPhoto, personName, personLastName, personEmail, personGender, bloodType, role,"50");
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("User").push();
                     uid = ref.getKey();
                     ref.child("email").setValue(newUser.getEmail());
@@ -282,6 +295,7 @@ public class LoginActivity extends AppCompatActivity {
                     ref.child("profilePicture").setValue(newUser.getProfilePicture());
                     ref.child("bloodType").setValue(newUser.getBloodType());
                     ref.child("role").setValue(newUser.getRole());
+                    ref.child("point").setValue(newUser.getPoint());
                 }
                 Bundle bundle = new Bundle();
                 bundle.putString("email", personEmail);
@@ -338,6 +352,7 @@ public class LoginActivity extends AppCompatActivity {
                                             loginPrefsEditor.putBoolean("saveLogin",true);
                                             loginPrefsEditor.putString("email",email);
                                             loginPrefsEditor.putString("password",password);
+                                            loginPrefsEditor.putString("uid",task.getResult().getUser().getUid());
                                             loginPrefsEditor.commit();
                                         }
                                         else {
