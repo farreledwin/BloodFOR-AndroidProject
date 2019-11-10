@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.bluejack19_1.BloodFOR.Fragment.StatisticFragment">
+    tools:context="edu.bluejack19_1.BloodFOR.Fragment.StatisticFragment"
+    android:padding="40dp">
 
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/chart"

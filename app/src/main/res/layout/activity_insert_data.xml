@@ -22,7 +22,7 @@
             android:layout_height="54dp"
             android:text="@string/insert_event"
             android:textAlignment="center"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:layout_marginTop="20dp"
             tools:layout_editor_absoluteX="57dp"
             tools:layout_editor_absoluteY="52dp" />
@@ -59,31 +59,6 @@
             android:layout_marginTop="20dp"
             android:hint="@string/eventDesc" />
 
-        <EditText
-            android:id="@+id/eventLongitudeText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:layout_marginTop="20dp"
-            android:hint="@string/event_long" />
-
-        <EditText
-            android:id="@+id/eventLatitudeTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:layout_marginTop="20dp"
-            android:hint="@string/event_lat" />
-
-        <Button
-            android:id="@+id/imageUploadBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button3"
-            android:textColor="@color/white"
-            android:text="@string/choose_img" />
-
         <ImageView
             android:id="@+id/imgView"
             android:contentDescription="@string/event_pic"
@@ -93,30 +68,43 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <Button
-            android:id="@+id/uploadBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/imageUploadBtn"
+            android:layout_width="165dp"
+            android:layout_height="45dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/button3"
             android:textColor="@color/white"
-            android:text="@string/upload_pic" />
+            android:text="@string/choose_img"
+            android:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/uploadBtn"
+            android:layout_width="165dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button3"
+            android:textColor="@color/white"
+            android:text="@string/upload_pic"
+            android:layout_gravity="center"/>
 
         <Button
             android:id="@+id/gotomaps"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="165dp"
+            android:layout_height="45dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/button5"
-            android:text="@string/goto_maps" />
+            android:text="@string/goto_maps"
+            android:layout_gravity="center"/>
 
         <Button
             android:id="@+id/insertBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="165dp"
+            android:layout_height="45dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/button2"
-            android:text="@string/insert_event" />
+            android:text="@string/insert_event"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 </ScrollView>

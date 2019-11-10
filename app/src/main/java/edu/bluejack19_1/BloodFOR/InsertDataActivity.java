@@ -36,7 +36,7 @@ public class InsertDataActivity extends AppCompatActivity {
 
 
     private DatabaseReference database;
-    private EditText eventTxt, eventDateTxt, eventLocationTxt,eventLongitude,eventLatitude,eventDesc;
+    private EditText eventTxt, eventDateTxt, eventLocationTxt,eventDesc;
     private Button insertBtn,btnMap;
     private Button btnChoose, btnUpload;
     private ImageView imageView;
@@ -47,7 +47,7 @@ public class InsertDataActivity extends AppCompatActivity {
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private Uri filePath;
     private final int PICK_IMAGE_REQUEST = 71;
-    private String uid, email;
+    private String uid, email, lats , longs;
     private Boolean cek;
 
 
@@ -71,8 +71,6 @@ public class InsertDataActivity extends AppCompatActivity {
         insertBtn = findViewById(R.id.insertBtn);
         btnChoose = findViewById(R.id.imageUploadBtn);
         btnUpload = findViewById(R.id.uploadBtn);
-        eventLongitude = findViewById(R.id.eventLongitudeText);
-        eventLatitude = findViewById(R.id.eventLatitudeTxt);
         eventDesc = findViewById(R.id.eventDescTxt);
 
         imageView = findViewById(R.id.imgView);
@@ -97,10 +95,10 @@ public class InsertDataActivity extends AppCompatActivity {
         insertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(eventTxt.getText().toString()) && !TextUtils.isEmpty(eventDesc.getText().toString()) && !TextUtils.isEmpty(eventLongitude.getText().toString()) && !TextUtils.isEmpty(eventLatitude.getText().toString()) && !TextUtils.isEmpty(eventDateTxt.getText().toString())
+                if (!TextUtils.isEmpty(eventTxt.getText().toString()) && !TextUtils.isEmpty(eventDesc.getText().toString()) && !TextUtils.isEmpty(longs) && !TextUtils.isEmpty(lats) && !TextUtils.isEmpty(eventDateTxt.getText().toString())
                         && !TextUtils.isEmpty((eventLocationTxt.getText().toString()))) {
                     try {
-                        submitData(new Event(downloadURL, eventTxt.getText().toString(), eventDesc.getText().toString(),eventLocationTxt.getText().toString(), formatter.parse(eventDateTxt.getText().toString()),Double.parseDouble(eventLatitude.getText().toString()),Double.parseDouble(eventLongitude.getText().toString()),""));
+                        submitData(new Event(downloadURL, eventTxt.getText().toString(), eventDesc.getText().toString(),eventLocationTxt.getText().toString(), formatter.parse(eventDateTxt.getText().toString()),Double.parseDouble(lats),Double.parseDouble(longs),""));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -118,8 +116,8 @@ public class InsertDataActivity extends AppCompatActivity {
 
         gotoMaps();
         if(extras != null) {
-            eventLongitude.setText(extras.getString("longitude"));
-            eventLatitude.setText(extras.getString("latitude"));
+            lats = extras.getString("longitude");
+            longs = extras.getString("latitude");
         }
     }
 
@@ -139,8 +137,6 @@ public class InsertDataActivity extends AppCompatActivity {
         eventDateTxt.setText("");
         eventLocationTxt.setText("");
         eventDesc.setText("");
-        eventLatitude.setText("");
-        eventLongitude.setText("");
 
         Toast.makeText(InsertDataActivity.this, "Succcess Insert", Toast.LENGTH_LONG).show();
     }

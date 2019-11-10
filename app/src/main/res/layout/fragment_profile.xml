@@ -228,8 +228,8 @@
 
             <Button
                 android:id="@+id/upload_button"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="116dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/white"
@@ -242,8 +242,8 @@
 
             <Button
                 android:id="@+id/password_button"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_width="165dp"
+                android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="272dp"
                 android:layout_marginEnd="8dp"
@@ -257,8 +257,8 @@
 
             <Button
                 android:id="@+id/redeem_button"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_width="165dp"
+                android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
@@ -275,8 +275,8 @@
 
             <Button
                 android:id="@+id/logout_button"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_width="165dp"
+                android:layout_height="45dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="8dp"
