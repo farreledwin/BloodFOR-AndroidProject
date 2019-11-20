@@ -3,6 +3,7 @@ package edu.bluejack19_1.BloodFOR;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.UUID;
 
 import edu.bluejack19_1.BloodFOR.Model.Event;
@@ -34,7 +37,7 @@ import edu.bluejack19_1.BloodFOR.Model.Event;
 public class InsertDataActivity extends AppCompatActivity {
 
 
-
+    private DatePickerDialog datePickerDialog;
     private DatabaseReference database;
     private EditText eventTxt, eventDateTxt, eventLocationTxt,eventDesc;
     private Button insertBtn,btnMap;
@@ -49,6 +52,7 @@ public class InsertDataActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 71;
     private String uid, email, lats , longs;
     private Boolean cek;
+    private Button btDatePicker;
 
 
     @Override
@@ -62,6 +66,7 @@ public class InsertDataActivity extends AppCompatActivity {
         uid = extras.getString("uid");
         cek = extras.getBoolean("cek");
 
+
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -72,10 +77,17 @@ public class InsertDataActivity extends AppCompatActivity {
         btnChoose = findViewById(R.id.imageUploadBtn);
         btnUpload = findViewById(R.id.uploadBtn);
         eventDesc = findViewById(R.id.eventDescTxt);
+        btDatePicker = findViewById(R.id.datepicker);
+        btDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDateDialog();
+            }
+        });
 
         imageView = findViewById(R.id.imgView);
         btnMap = findViewById(R.id.gotomaps);
-
+        eventLocationTxt.setText(extras.getString("location"));
         database = FirebaseDatabase.getInstance().getReference();
 
         btnChoose.setOnClickListener(new View.OnClickListener() {
@@ -99,18 +111,19 @@ public class InsertDataActivity extends AppCompatActivity {
                         && !TextUtils.isEmpty((eventLocationTxt.getText().toString()))) {
                     try {
                         submitData(new Event(downloadURL, eventTxt.getText().toString(), eventDesc.getText().toString(),eventLocationTxt.getText().toString(), formatter.parse(eventDateTxt.getText().toString()),Double.parseDouble(lats),Double.parseDouble(longs),""));
+                        Intent i = new Intent(InsertDataActivity.this, MainActivity.class);
+                        i.putExtra("uid",uid);
+                        i.putExtra("email",email);
+                        i.putExtra("cekGoogle",cek);
+                        startActivity(i);
+                        finish();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 } else {
                     Toast.makeText(InsertDataActivity.this, "There is still empty data", Toast.LENGTH_LONG).show();
                 }
-                Intent i = new Intent(InsertDataActivity.this, MainActivity.class);
-                i.putExtra("uid",uid);
-                i.putExtra("email",email);
-                i.putExtra("cekGoogle",cek);
-                startActivity(i);
-                finish();
+
             }
         });
 
@@ -120,7 +133,45 @@ public class InsertDataActivity extends AppCompatActivity {
             longs = extras.getString("latitude");
         }
     }
+    private void showDateDialog(){
 
+        /**
+         * Calendar untuk mendapatkan tanggal sekarang
+         */
+        Calendar newCalendar = Calendar.getInstance();
+
+        /**
+         * Initiate DatePicker dialog
+         */
+        datePickerDialog = new DatePickerDialog(InsertDataActivity.this, new DatePickerDialog.OnDateSetListener() {
+
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                /**
+                 * Method ini dipanggil saat kita selesai memilih tanggal di DatePicker
+                 */
+
+                /**
+                 * Set Calendar untuk menampung tanggal yang dipilih
+                 */
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+
+                /**
+                 * Update TextView dengan tanggal yang kita pilih
+                 */
+                eventDateTxt.setText(formatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        /**
+         * Tampilkan DatePicker dialog
+         */
+        datePickerDialog.show();
+    }
     public void submitData(Event event) {
 
         DatabaseReference db = database.child("Event").push();

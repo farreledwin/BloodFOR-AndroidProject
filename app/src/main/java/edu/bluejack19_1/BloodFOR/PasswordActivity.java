@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,10 @@ public class PasswordActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         email = extras.getString("email");
+
         password = extras.getString("password");
+        Log.d("email",email);
+        Log.d("pass",password);
         user = FirebaseAuth.getInstance().getCurrentUser();
     }
 
@@ -56,19 +60,29 @@ public class PasswordActivity extends AppCompatActivity {
                         user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    user.updatePassword(newpassText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(PasswordActivity.this, "Update Passord Success", Toast.LENGTH_LONG).show();
-                                            } else {
-                                                Toast.makeText(PasswordActivity.this, "Update Passord Failed", Toast.LENGTH_LONG).show();
+
+                                if(oldpassText.getText().toString().equals(password)) {
+
+                                    if (task.isSuccessful()) {
+
+                                        user.updatePassword(newpassText.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(PasswordActivity.this, "Update Password Success", Toast.LENGTH_LONG).show();
+
+                                                } else {
+                                                    Toast.makeText(PasswordActivity.this, "Update Password Failed", Toast.LENGTH_LONG).show();
+                                                }
                                             }
-                                        }
-                                    });
+                                        });
+                                    } else {
+                                        Toast.makeText(PasswordActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                                    }
                                 } else {
                                     Toast.makeText(PasswordActivity.this, "Failed", Toast.LENGTH_LONG).show();
+                                    Log.d("testttt",password);
                                 }
                             }
                         });

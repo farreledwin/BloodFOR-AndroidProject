@@ -27,8 +27,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import edu.bluejack19_1.BloodFOR.R;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -76,6 +80,7 @@ public class ProfileFragment extends Fragment {
     static FragmentActivity activity;
     public static ProgressBar pbar;
     private String pointupdate;
+    private FirebaseUser user;
 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -92,6 +97,7 @@ public class ProfileFragment extends Fragment {
         });
 //        Log.d("password",LoginActivity.pass);
         Log.d("passwordanda",loginPreferences.getString("password",""));
+        user = FirebaseAuth.getInstance().getCurrentUser();
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,13 +112,13 @@ public class ProfileFragment extends Fragment {
                 String email = MainActivity.email;
                 String uid = MainActivity.uid;
                 Boolean cek = MainActivity.cekGoogle;
-                i.putExtra("email",email);
+                i.putExtra("email", loginPreferences.getString("email",""));
                 i.putExtra("uid",uid);
                 i.putExtra("cek",cek);
 //                password = LoginActivity.pass;
 
 
-                i.putExtra("password",password);
+                i.putExtra("password",loginPreferences.getString("password",""));
                 Objects.requireNonNull(getActivity()).finish();
                 startActivity(i);
             }
@@ -123,7 +129,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 if(!profPic.equals("") && profPic != null)
                     profPic = downloadURL;
-                String emailTxt = email.getText().toString();
+                final String emailTxt = email.getText().toString();
                 final String firstNameTxt = firstName.getText().toString();
                 String lastNameTxt = lastName.getText().toString();
                 String gender = "";
@@ -145,6 +151,24 @@ public class ProfileFragment extends Fragment {
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getContext(),"Success Update Profile",Toast.LENGTH_LONG).show();
                     }
+                });
+                auth.signInWithEmailAndPassword(loginPreferences.getString("email",""),loginPreferences.getString("password","")).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        user.updateEmail(emailTxt).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), "Update Email Success", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getActivity(), "Update Email Failed", Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                        });
+                        loginPrefsEditor.putString("email",emailTxt);
+                    }
+
                 });
 //                getReference.child("User").child(GetUserID).child("point").setValue("100");
                 Glide.with(view)
@@ -299,6 +323,7 @@ public class ProfileFragment extends Fragment {
 
                 role = dataSnapshot.child("role").getValue(String.class);
                 profPic = profilePicUser;
+                downloadURL = profilePicUser;
                 User user = new User(profilePicUser, firstNameUser, lastNameUser, emailUser, genderUser, bloodTypeUser, role,points);
                 email.setText(""+user.getEmail());
                 firstName.setText(""+user.getFirstName());

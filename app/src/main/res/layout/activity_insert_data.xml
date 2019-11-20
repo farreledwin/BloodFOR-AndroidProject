@@ -68,6 +68,16 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <Button
+            android:id="@+id/datepicker"
+            android:layout_width="184dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button3"
+            android:text="Show Date Picker"
+            android:textColor="@color/white" />
+
+        <Button
             android:id="@+id/imageUploadBtn"
             android:layout_width="165dp"
             android:layout_height="45dp"

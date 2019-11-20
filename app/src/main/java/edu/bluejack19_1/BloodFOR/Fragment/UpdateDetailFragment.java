@@ -1,5 +1,6 @@
 package edu.bluejack19_1.BloodFOR.Fragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,9 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import edu.bluejack19_1.BloodFOR.InsertDataActivity;
+import edu.bluejack19_1.BloodFOR.MainActivity;
 import edu.bluejack19_1.BloodFOR.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import edu.bluejack19_1.BloodFOR.Model.Event;
 
@@ -31,6 +36,8 @@ public class UpdateDetailFragment extends Fragment {
     private Event event;
     private EditText eventName,eventLocation,eventDate,eventDesc;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    private Button btDatePicker;
+    private DatePickerDialog datePickerDialog;
 
     public UpdateDetailFragment(Event event){
         this.event = event;
@@ -94,6 +101,45 @@ public class UpdateDetailFragment extends Fragment {
         }
         return false;
     }
+    private void showDateDialog(){
+
+        /**
+         * Calendar untuk mendapatkan tanggal sekarang
+         */
+        Calendar newCalendar = Calendar.getInstance();
+
+        /**
+         * Initiate DatePicker dialog
+         */
+        datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                /**
+                 * Method ini dipanggil saat kita selesai memilih tanggal di DatePicker
+                 */
+
+                /**
+                 * Set Calendar untuk menampung tanggal yang dipilih
+                 */
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+
+                /**
+                 * Update TextView dengan tanggal yang kita pilih
+                 */
+                eventDate.setText(formatter.format(newDate.getTime()));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
+        /**
+         * Tampilkan DatePicker dialog
+         */
+        datePickerDialog.show();
+    }
 
     private void updateEvent(Event event) {
         DatabaseReference db = getReference.child("Event").child(event.getEventID());
@@ -120,5 +166,12 @@ public class UpdateDetailFragment extends Fragment {
         final String date = formatter.format(event.getEventDate());
         eventDate.setText(date);
         eventDesc.setText(event.getEventDesc());
+        btDatePicker = view.findViewById(R.id.datepicker);
+        btDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDateDialog();
+            }
+        });
     }
 }

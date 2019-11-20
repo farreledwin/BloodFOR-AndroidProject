@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +18,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+import java.util.Locale;
+
 public class GetMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -22,6 +28,8 @@ public class GetMapActivity extends FragmentActivity implements OnMapReadyCallba
     private Double longitude, latitude;
     private String email,uid;
     private Boolean cek;
+    public List<Address> addresses;
+    private String location;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +64,16 @@ public class GetMapActivity extends FragmentActivity implements OnMapReadyCallba
                     mMap.addMarker(marker);
                     longitude = point.longitude;
                     latitude = point.latitude;
+                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+
+                Log.d("test", "lalallalaalla");
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(point.latitude, point.longitude, 1);
+                    Log.d("fr",addresses.get(0).getAddressLine(0));
+                    location = addresses.get(0).getAddressLine(0);
+                } catch(Exception e) {
+                    Log.d("ssss","exception");
+                }
                 }
             });
 
@@ -68,6 +86,7 @@ public class GetMapActivity extends FragmentActivity implements OnMapReadyCallba
                     i.putExtra("uid",uid);
                     i.putExtra("email",email);
                     i.putExtra("cekGoogle",cek);
+                    i.putExtra("location",location);
                     startActivity(i);
                 }
             });

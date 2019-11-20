@@ -1,5 +1,6 @@
 package edu.bluejack19_1.BloodFOR.Fragment;
 
+import android.app.AlertDialog;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -94,7 +95,12 @@ public class ListItemRedeemFragment extends Fragment {
 
                       }
                   });
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Success Reedem Sembako " + code, Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                    builder1.setMessage("Your Redeem Code : "+code);
+                    builder1.setCancelable(true);
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+//                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), "Success Reedem Sembako " + code, Toast.LENGTH_LONG).show();
                 }
                 else if(position == 0) {
                     String code = randomVoucherCode();
@@ -114,7 +120,12 @@ public class ListItemRedeemFragment extends Fragment {
 
                         }
                     });
-                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"Success Reedem Indomaret "+code,Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(getContext());
+                    builder1.setMessage("Your Redeem Code : "+code);
+                    builder1.setCancelable(true);
+                    AlertDialog alert11 = builder1.create();
+                    alert11.show();
+                    //Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(),"Success Reedem Indomaret "+code,Toast.LENGTH_LONG).show();
                 }
             }
         });
