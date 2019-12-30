@@ -363,7 +363,7 @@ public class LoginActivity extends AppCompatActivity {
                                         bundle.putString("email", email);
                                         pass = password;
                                         Toast.makeText(LoginActivity.this,"Success Login",Toast.LENGTH_LONG).show();
-                                        Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                        Intent myIntent = new Intent(LoginActivity.this, splashActivity.class);
                                         myIntent.putExtra("email",email);
                                         myIntent.putExtra("cekGoogle", false);
                                         myIntent.putExtra("cekFb", false);

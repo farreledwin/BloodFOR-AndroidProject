@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements DataListener, Bot
     }
     private void scheduleNotification(Notification notification, int delay) {
 
-
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         GetUserID = user.getUid();

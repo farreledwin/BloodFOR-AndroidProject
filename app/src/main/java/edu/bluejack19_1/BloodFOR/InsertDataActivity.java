@@ -75,16 +75,24 @@ public class InsertDataActivity extends AppCompatActivity {
         eventLocationTxt = findViewById(R.id.eventLocationText);
         insertBtn = findViewById(R.id.insertBtn);
         btnChoose = findViewById(R.id.imageUploadBtn);
-        btnUpload = findViewById(R.id.uploadBtn);
+
         eventDesc = findViewById(R.id.eventDescTxt);
-        btDatePicker = findViewById(R.id.datepicker);
-        btDatePicker.setOnClickListener(new View.OnClickListener() {
+//        btDatePicker = findViewById(R.id.datepicker);
+//        btDatePicker.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showDateDialog();
+//            }
+//        });
+        eventDateTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
             @Override
-            public void onClick(View view) {
-                showDateDialog();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    showDateDialog();
+                }
             }
         });
-
         imageView = findViewById(R.id.imgView);
         btnMap = findViewById(R.id.gotomaps);
         eventLocationTxt.setText(extras.getString("location"));
@@ -94,15 +102,11 @@ public class InsertDataActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chooseImage();
-            }
-        });
-
-        btnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 uploadImage();
             }
         });
+
+
 
         insertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +201,7 @@ public class InsertDataActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+
     }
 
     @Override
@@ -205,6 +210,33 @@ public class InsertDataActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
             filePath = data.getData();
+            if(filePath != null)
+            {
+
+                final StorageReference ref = storageReference.child("images/"+ UUID.randomUUID().toString());
+                ref.putFile(filePath)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Toast.makeText(InsertDataActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        downloadURL = uri.toString();
+                                    }
+                                });
+                            }
+
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                                Toast.makeText(InsertDataActivity.this, "Failed "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+            }
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);

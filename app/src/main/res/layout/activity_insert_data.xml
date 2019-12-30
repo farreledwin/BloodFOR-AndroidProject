@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_marginTop="20dp"
+            android:clickable="true"
             android:hint="@string/eventName" />
 
         <EditText
@@ -68,16 +69,6 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <Button
-            android:id="@+id/datepicker"
-            android:layout_width="184dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button3"
-            android:text="Show Date Picker"
-            android:textColor="@color/white" />
-
-        <Button
             android:id="@+id/imageUploadBtn"
             android:layout_width="165dp"
             android:layout_height="45dp"
@@ -86,16 +77,6 @@
             android:textColor="@color/white"
             android:text="@string/choose_img"
             android:layout_gravity="center" />
-
-        <Button
-            android:id="@+id/uploadBtn"
-            android:layout_width="165dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/button3"
-            android:textColor="@color/white"
-            android:text="@string/upload_pic"
-            android:layout_gravity="center"/>
 
         <Button
             android:id="@+id/gotomaps"

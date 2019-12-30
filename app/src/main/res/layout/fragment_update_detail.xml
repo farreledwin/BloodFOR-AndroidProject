@@ -68,21 +68,6 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/datepicker"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="428dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/button3"
-            android:text="Show Date Picker"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
             android:id="@+id/delete_event_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"

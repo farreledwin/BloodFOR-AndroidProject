@@ -36,7 +36,7 @@ public class UpdateDetailFragment extends Fragment {
     private Event event;
     private EditText eventName,eventLocation,eventDate,eventDesc;
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
-    private Button btDatePicker;
+
     private DatePickerDialog datePickerDialog;
 
     public UpdateDetailFragment(Event event){
@@ -166,11 +166,20 @@ public class UpdateDetailFragment extends Fragment {
         final String date = formatter.format(event.getEventDate());
         eventDate.setText(date);
         eventDesc.setText(event.getEventDesc());
-        btDatePicker = view.findViewById(R.id.datepicker);
-        btDatePicker.setOnClickListener(new View.OnClickListener() {
+//        btDatePicker = view.findViewById(R.id.datepicker);
+//        btDatePicker.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                showDateDialog();
+//            }
+//        });
+        eventDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
             @Override
-            public void onClick(View view) {
-                showDateDialog();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    showDateDialog();
+                }
             }
         });
     }
